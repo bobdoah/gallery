@@ -6,7 +6,7 @@ const path = require('path');
 const {Storage} = require('@google-cloud/storage');
 const storage = new Storage();
 
-exports.frameIt = event => {
+exports.framePhotoboothImages = event => {
   const object = event.data || event; // Node 6: event.data === Node 8+: event
 
   // Exit if this is a deletion or a deploy event.

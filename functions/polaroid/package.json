@@ -6,7 +6,7 @@
   "author": "bobdoah",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bobdoah/photobooth",
+    "url": "https://github.com/bobdoah/photobooth"
   },
   "engines": {
     "node": ">=8"
@@ -18,7 +18,7 @@
     "gm": "^1.23.1"
   },
   "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "^3.0.0",
+    "@google-cloud/nodejs-repo-tools": "^3.0.0"
   },
   "cloud-repo-tools": {
     "requiresKeyFile": true,
