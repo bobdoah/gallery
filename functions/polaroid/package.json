@@ -1,0 +1,27 @@
+{
+  "name": "photobooth-polaroid"
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "bobdoah",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobdoah/photobooth",
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^2.3.3",
+    "gm": "^1.23.1"
+  },
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^3.0.0",
+  },
+  "cloud-repo-tools": {
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  }
+}
