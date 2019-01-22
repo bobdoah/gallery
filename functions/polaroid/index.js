@@ -50,7 +50,7 @@ function frameImage(file) {
                 .background("#F69D9D")
                 .fill("#FFFFFF")
                 .pointSize("50")
-                .gravity("center")
+                .gravity("Center")
                 .font(`${__dirname}/Montez-Regular.ttf`)
                 .out('label:Sarah and Rob\n2019/03/09')
                 .borderColor("#F69D9D")
@@ -77,7 +77,7 @@ function frameImage(file) {
         console.log(`Image ${file.name} has been framed.`);
         const newName = `framed-${file.name}`;
         return file.bucket
-            .upload(tempLocalPath, {destination:newName})
+            .upload(tempLocalPath, {resumable:false, destination:newName})
             .catch(err => {
                 console.error('Failed to upload framed image.', err);
             });
