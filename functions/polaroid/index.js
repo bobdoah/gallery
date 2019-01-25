@@ -1,6 +1,6 @@
 'use strict';
 
-const gm = require('gm') //.subClass({imageMagick: true});
+const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
 const path = require('path');
 const {Storage} = require('@google-cloud/storage');
@@ -22,7 +22,7 @@ exports.framePhotoboothImages = event => {
   const filePath = `gs://${object.bucket}/${object.name}`;
 
   // Ignore already-framed files (to prevent re-invoking this function)
-  if (file.name.startsWith('polaroid--')) {
+  if (file.name.startsWith('framed-')) {
     console.log(`The image ${file.name} is already framed.`);
     return;
   }
@@ -46,20 +46,22 @@ function frameImage(file) {
         
         return new Promise((resolve, reject) => {
             gm(tempLocalPath)
-                .out("\(")
-                .background("#FFFFFF")
-                .fill("#F69D9D")
-                .pointsize("24")
-                .label("Sarah and Rob\n2019/03/09")
-                .trim()
-                .repage()
-                .bordercolor("#FFFFFF")
+                .out('\(')
+                .background("#F69D9D")
+                .fill("#FFFFFF")
+                .pointSize("50")
+                .gravity("Center")
+                .font(`${__dirname}/Montez-Regular.ttf`)
+                .out('label:Sarah and Rob\n2019/03/09')
+                .borderColor("#F69D9D")
+                .out('-border')
+                .out('3')
                 .gravity("South")
                 .append()
                 .out("\)")
-                .bordercolor("#FFFFFF")
-                .border("10")
-                .gravity("South")
+                .borderColor("#F69D9D")
+                .out('-border')
+                .out("20")
                 .chop("0x10")
                 .write(tempLocalPath, (err, stdout) => {
                     if(err) {
@@ -73,8 +75,16 @@ function frameImage(file) {
         })
     .then(() => {
         console.log(`Image ${file.name} has been framed.`);
+        const newName = `framed-${file.name}`;
+        return file.bucket
+            .upload(tempLocalPath, {resumable:false, destination:newName})
+            .catch(err => {
+                console.error('Failed to upload framed image.', err);
+            });
+        })
+    .then(() => {
         return new Promise((resolve, reject) => {
-            f.unlink(tempLocalPath, err => {
+            fs.unlink(tempLocalPath, err => {
                 if (err) {
                     reject(err)
                 } else {
