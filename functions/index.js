@@ -1,8 +1,14 @@
-const functions = require('firebase-functions');
+const fs = require('fs');
+const path = require('path');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+// Folder where all your individual Cloud Functions files are located.
+const FUNCTIONS_FOLDER = './gallery_functions';
+
+fs.readdirSync(path.resolve(__dirname, FUNCTIONS_FOLDER)).forEach(file => { // list files in the folder.
+  if(file.endsWith('.js')) {
+    const fileBaseName = file.slice(0, -3); // Remove the '.js' extension
+    if (!process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === fileBaseName) {
+      exports[fileBaseName] = require(`${FUNCTIONS_FOLDER}/${fileBaseName}`);
+    }
+  }
+});
