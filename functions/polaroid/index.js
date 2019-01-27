@@ -46,7 +46,7 @@ function frameImage(file) {
         
         return new Promise((resolve, reject) => {
             gm(tempLocalPath)
-                .out('\(')
+                .out('(')
                 .background("#F69D9D")
                 .fill("#FFFFFF")
                 .pointSize("50")
@@ -58,7 +58,7 @@ function frameImage(file) {
                 .out('3')
                 .gravity("South")
                 .append()
-                .out("\)")
+                .out(')')
                 .borderColor("#F69D9D")
                 .out('-border')
                 .out("20")
