@@ -30,13 +30,18 @@ const THUMB_MAX_WIDTH = 1080;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 
+const runtimeOpts = {
+    timeoutSeconds: 300,
+    memory: '1GB'
+}
+
 /**
  * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
  * ImageMagick.
  * After the thumbnail has been generated and uploaded to Cloud Storage,
  * we write the public URL to the Firebase Realtime Database.
  */
-exports = module.exports = functions.region("europe-west1").storage.object().onFinalize(async(object) => {
+exports = module.exports = functions.runWith(runtimeOpts).region("europe-west1").storage.object().onFinalize(async(object) => {
   // File and directory paths.
   const filePath = object.name;
   const contentType = object.contentType; // This is the image MIME type

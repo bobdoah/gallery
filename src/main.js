@@ -4,10 +4,12 @@ import App from "./App.vue";
 import router from "./router";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
+import Vuefire from "vuefire";
 
 require("@/assets/css/instaAlbum.css");
 
 Vue.use(Buefy);
+Vue.use(Vuefire);
 Vue.config.productionTip = false;
 
 var config = {
