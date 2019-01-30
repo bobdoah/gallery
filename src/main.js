@@ -12,17 +12,17 @@ Vue.use(Buefy);
 Vue.use(Vuefire);
 Vue.config.productionTip = false;
 
-var config = {
-  apiKey: "AIzaSyAB_yBu6uCOLAD3ci1Cf-5H6sh_nuGbMBo",
-  authDomain: "sarah-and-rob.firebaseapp.com",
-  databaseURL: "https://sarah-and-rob.firebaseio.com",
-  projectId: "sarah-and-rob",
-  storageBucket: "sarah-and-rob.appspot.com",
-  messagingSenderId: "793325439550"
-};
-firebase.initializeApp(config);
-
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    firebase.initializeApp({
+      apiKey: "AIzaSyAB_yBu6uCOLAD3ci1Cf-5H6sh_nuGbMBo",
+      authDomain: "sarah-and-rob.firebaseapp.com",
+      databaseURL: "https://sarah-and-rob.firebaseio.com",
+      projectId: "sarah-and-rob",
+      storageBucket: "sarah-and-rob.appspot.com",
+      messagingSenderId: "793325439550"
+    });
+  }
 }).$mount("#app");
