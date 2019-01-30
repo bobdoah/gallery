@@ -1,7 +1,7 @@
 <template>
   <div class="columns body-columns">
     <div class="column is-half is-offset-one-quarter">
-      <div v-for="image in images" class="card">
+      <div v-for="image of images.slice().reverse()" :key="image.key" class="card">
         <div class="header">
           <div class="media">
             <div class="media-left">
@@ -20,10 +20,7 @@
         </div>
         <div class="card-image">
           <figure class="image is-4by3">
-            <img
-              src="https://source.unsplash.com/random/1280x960"
-              alt="Placeholder image"
-            />
+            <img :src="image.thumbnail" alt="Placeholder image" />
           </figure>
         </div>
         <div class="card-content">
@@ -81,6 +78,15 @@
   </div>
 </template>
 <script>
-import firebase from "firebase";
-var db = firebase.database();
+import { db } from "../firebase";
+export default {
+  data() {
+    return {
+      images: []
+    };
+  },
+  firebase: {
+    images: db.ref("images").orderByKey()
+  }
+};
 </script>
