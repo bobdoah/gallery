@@ -1,26 +1,32 @@
 <template>
   <div class="columns body-columns">
     <div class="column is-half is-offset-one-quarter">
-      <div v-for="image of images.slice().reverse()" :key="image.key" class="card">
+      <div
+        v-for="image of images.slice().reverse()"
+        :key="image.key"
+        class="card"
+      >
         <div class="header">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img
-                  src="https://source.unsplash.com/random/96x96"
-                  alt="Placeholder image"
-                />
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-4">John Smith</p>
-              <p class="subtitle is-6">@johnsmith</p>
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <figure class="image is-48x48">
+                  <i v-if="image.user" class="material-icons is-large">
+                    person
+                  </i>
+                  <i v-else class="material-icons icon is-large">camera_alt</i>
+                </figure>
+              </div>
+              <div class="level-item">
+                <p v-if="image.user" class="title is-4">{{ image.user }}</p>
+                <p v-else class="title is-4">Booth Camera</p>
+              </div>
             </div>
           </div>
         </div>
         <div class="card-image">
-          <figure class="image is-4by3">
-            <img :src="image.thumbnail" alt="Placeholder image" />
+          <figure class="image">
+            <img :src="image.thumbnail" />
           </figure>
         </div>
         <div class="card-content">
