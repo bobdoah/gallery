@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <div class="navbar is-inline-flex is-transparent has-background-pink">
+    <div class="navbar is-inline-flex is-transparent">
       <div class="navbar-brand">
-        <a
-          class="navbar-item is-family-montez has-text-weight-bold is-size-2 has-text-white"
-        >
+        <a class="navbar-item is-family-montez has-text-weight-bold is-size-2">
           Sarah & Rob
         </a>
       </div>

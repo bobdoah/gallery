@@ -54,5 +54,24 @@ $colors: (
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
-@import "~bulma";
-@import "~buefy/src/scss/buefy";
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+
+.navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  background-color: $primary;
+  justify-content: space-around;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+}
+
+a.navbar-item {
+  color: $primary-invert;
+}
+
+a.navbar-item:hover {
+  color: $dark;
+}
