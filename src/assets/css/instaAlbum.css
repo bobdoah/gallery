@@ -48,6 +48,18 @@
     padding: 2rem 1.5rem;
 }
 
+.is-family-montez {
+    font-family: 'Montez', cursive;
+}
+
+.has-background-pink {
+    background-color: #F69D9D;
+}
+
+.has-text-pink {
+    font-color: #F69D9D;
+}
+
 /* @media screen and (max-width: 786px){
     .navbar {
         justify-content: space-between;

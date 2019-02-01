@@ -1,29 +1,15 @@
 <template>
   <div id="app">
-    <div class="navbar is-inline-flex is-transparent">
+    <div class="navbar is-inline-flex is-transparent has-background-pink">
       <div class="navbar-brand">
-        <a class="navbar-item">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            width="112"
-            height="28"
-            alt="Bulma"
-          />
+        <a
+          class="navbar-item is-family-montez has-text-weight-bold is-size-2 has-text-white"
+        >
+          Sarah & Rob
         </a>
       </div>
       <div class="navbar-menu">
-        <div class="navbar-item">
-          <div class="control has-icons-left">
-            <input
-              class="input is-small has-text-centered"
-              type="text"
-              placeholder="search"
-            />
-            <span class="icon is-left is-small">
-              <i class="material-icons">search</i>
-            </span>
-          </div>
-        </div>
+        <div class="navbar-item"></div>
       </div>
       <div class="navbar-item is-flex-touch">
         <a class="navbar-item">
@@ -40,3 +26,7 @@
     <router-view />
   </div>
 </template>
+
+<style lang="scss">
+@import "assets/sass/style.scss";
+</style>
