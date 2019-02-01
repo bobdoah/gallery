@@ -2,7 +2,7 @@
   <div class="columns body-columns">
     <div class="column is-half is-offset-one-quarter">
       <div
-        v-for="image of images.slice().reverse()"
+        v-for="(image, index) of images.slice().reverse()"
         :key="image.key"
         class="card"
       >
@@ -39,7 +39,7 @@
               </div>
               <div class="level-item has-text-centered">
                 <div>
-                  <a href="">
+                  <a v-on:click="setCommentFocus(index)">
                     <i class="material-icons">chat_bubble_outline</i>
                   </a>
                 </div>
@@ -65,6 +65,7 @@
               <div class="field">
                 <div class="control">
                   <input
+                    :ref="'comment'"
                     class="input is-medium"
                     type="text"
                     placeholder="Add a comment . . ."
@@ -93,6 +94,14 @@ export default {
   },
   firebase: {
     images: db.ref("images").orderByKey()
+  },
+  methods: {
+    setCommentFocus(key) {
+      this.$refs.comment[key].focus();
+    }
+  },
+  mounted() {
+   console.log(this.$refs);
   }
 };
 </script>
