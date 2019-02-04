@@ -99,9 +99,6 @@ export default {
     setCommentFocus(key) {
       this.$refs.comment[key].focus();
     }
-  },
-  mounted() {
-   console.log(this.$refs);
   }
 };
 </script>

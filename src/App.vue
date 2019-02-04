@@ -17,7 +17,7 @@
           <i class="material-icons">favorite_border</i>
         </a>
         <a class="navbar-item">
-          <i class="material-icons">person_outline</i>
+          
         </a>
       </div>
     </div>
@@ -28,3 +28,14 @@
 <style lang="scss">
 @import "assets/sass/style.scss";
 </style>
+
+<script>
+import { firebaseApp } from "./firebase";
+export default {
+  methods: {
+    logOut() {
+      firebaseApp.auth().signOut();
+    }
+  }
+};
+</script>
