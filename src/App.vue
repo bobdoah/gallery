@@ -16,9 +16,8 @@
         <a class="navbar-item">
           <i class="material-icons">favorite_border</i>
         </a>
-        <a class="navbar-item">
-          
-        </a>
+        <a class="navbar-item" v-if="user" @click="signOut">Sign out</a>
+        <a class="navbar-item" v-else href="auth">Sign in</a>
       </div>
     </div>
     <router-view />
@@ -28,13 +27,18 @@
 <style lang="scss">
 @import "assets/sass/style.scss";
 </style>
-
 <script>
 import { firebaseApp } from "./firebase";
 export default {
+  props: ["user"],
   methods: {
-    logOut() {
-      firebaseApp.auth().signOut();
+    signOut() {
+      firebaseApp
+        .auth()
+        .signOut()
+        .then(() => {
+          this.user = null;
+        });
     }
   }
 };

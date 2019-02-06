@@ -12,15 +12,24 @@ Vue.use(Vuefire);
 Vue.config.productionTip = false;
 
 new Vue({
+  data() {
+    return {
+      user: null
+    };
+  },
   router,
-  created() {
+  beforeCreate: function() {
     firebaseApp.auth().onAuthStateChanged(user => {
       if (user) {
         this.user = user;
-      } else {
-        this.user = null;
       }
     });
   },
-  render: h => h(App)
+  render(h) {
+    return h(App, {
+      props: {
+        user: this.user
+      }
+    });
+  }
 }).$mount("#app");
