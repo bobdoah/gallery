@@ -20,7 +20,7 @@
         <a class="navbar-item" v-else href="auth">Sign in</a>
       </div>
     </div>
-    <router-view />
+    <router-view :user="user" />
   </div>
 </template>
 

@@ -33,8 +33,11 @@
           <div class="level is-mobile">
             <div class="level-left">
               <div class="level-item has-text-centered">
-                <a href="">
-                  <i class="material-icons">favorite_border</i>
+                <a @click="addLike(image, user.uid)">
+                  <i v-if="image.likes && image.likes[user.uid]" class="material-icons">
+                    favorite
+                  </i>
+                  <i v-else class="material-icons">favorite_border</i>
                 </a>
               </div>
               <div class="level-item has-text-centered">
@@ -48,15 +51,10 @@
           </div>
           <div class="content">
             <p>
-              <strong>32 Likes</strong>
+              <strong>
+                {{ image.likeCount ? image.likeCount : "0" }} Likes
+              </strong>
             </p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            nec iaculis mauris.
-            <a>@bulmaio</a>.
-            <a href="#">#css</a>
-            <a href="#">#responsive</a>
-            <br />
-            <time datetime="2018-1-1">11:09 PM - 1 Jan 2018</time>
           </div>
         </div>
         <div class="card-footer">
@@ -87,6 +85,7 @@
 <script>
 import { db } from "../firebase";
 export default {
+  props: ["user"],
   data() {
     return {
       images: []
@@ -98,6 +97,28 @@ export default {
   methods: {
     setCommentFocus(key) {
       this.$refs.comment[key].focus();
+    },
+    addLike(image, uid) {
+      this.$firebaseRefs.images
+        .child(image[".key"])
+        .transaction(function(image) {
+          if (image) {
+            if (image.likes && image.likes[uid]) {
+              image.likeCount--;
+              image.likes[uid] = null;
+            } else {
+              if (!image.likeCount) {
+                image.likeCount = 0;
+              }
+              image.likeCount++;
+              if (!image.likes) {
+                image.likes = {};
+              }
+              image.likes[uid] = true;
+            }
+          }
+          return image;
+        });
     }
   }
 };
