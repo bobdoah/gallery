@@ -33,8 +33,11 @@
           <div class="level is-mobile">
             <div class="level-left">
               <div class="level-item has-text-centered">
-                <a @click="addLike(image, user.uid)">
-                  <i v-if="image.likes && image.likes[user.uid]" class="material-icons">
+                <a @click="addLike(image)">
+                  <i
+                    v-if="image.likes && user != null && image.likes[user.uid]"
+                    class="material-icons"
+                  >
                     favorite
                   </i>
                   <i v-else class="material-icons">favorite_border</i>
@@ -55,6 +58,11 @@
                 {{ image.likeCount ? image.likeCount : "0" }} Likes
               </strong>
             </p>
+            <template v-for="comment in image.comments">
+              <a :key="comment.key">{{ comment.user }}</a>
+              {{ comment.text }}
+              <br :key="comment.key" />
+            </template>
           </div>
         </div>
         <div class="card-footer">
@@ -64,6 +72,7 @@
                 <div class="control">
                   <input
                     :ref="'comment'"
+                    v-on:keyup.enter="addComment(image, $event.target.value)"
                     class="input is-medium"
                     type="text"
                     placeholder="Add a comment . . ."
@@ -98,27 +107,42 @@ export default {
     setCommentFocus(key) {
       this.$refs.comment[key].focus();
     },
-    addLike(image, uid) {
-      this.$firebaseRefs.images
-        .child(image[".key"])
-        .transaction(function(image) {
-          if (image) {
-            if (image.likes && image.likes[uid]) {
-              image.likeCount--;
-              image.likes[uid] = null;
-            } else {
-              if (!image.likeCount) {
-                image.likeCount = 0;
+    addComment(image, text) {
+      if (this.user != null) {
+        this.$firebaseRefs.images
+          .child(image[".key"])
+          .child("comments")
+          .push({
+            user: this.user.displayName,
+            uid: this.user.uid,
+            text: text
+          });
+      }
+    },
+    addLike(image) {
+      if (this.user != null) {
+        var uid = this.user.uid;
+        this.$firebaseRefs.images
+          .child(image[".key"])
+          .transaction(function(image) {
+            if (image) {
+              if (image.likes && image.likes[uid]) {
+                image.likeCount--;
+                image.likes[uid] = null;
+              } else {
+                if (!image.likeCount) {
+                  image.likeCount = 0;
+                }
+                image.likeCount++;
+                if (!image.likes) {
+                  image.likes = {};
+                }
+                image.likes[uid] = true;
               }
-              image.likeCount++;
-              if (!image.likes) {
-                image.likes = {};
-              }
-              image.likes[uid] = true;
             }
-          }
-          return image;
-        });
+            return image;
+          });
+      }
     }
   }
 };

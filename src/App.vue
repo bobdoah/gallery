@@ -33,12 +33,7 @@ export default {
   props: ["user"],
   methods: {
     signOut() {
-      firebaseApp
-        .auth()
-        .signOut()
-        .then(() => {
-          this.user = null;
-        });
+      firebaseApp.auth().signOut();
     }
   }
 };

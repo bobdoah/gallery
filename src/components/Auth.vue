@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="columns body-columns">
     <div class="column is-half is-offset-one-quarter">
       <div id="firebaseui-auth-container"></div>
