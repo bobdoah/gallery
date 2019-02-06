@@ -2,7 +2,8 @@ import firebase from "firebase";
 
 export const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyAB_yBu6uCOLAD3ci1Cf-5H6sh_nuGbMBo",
-  authDomain: "sarah-and-rob.firebaseapp.com",
+  //authDomain: "sarah-and-rob.firebaseapp.com",
+  authDomain: "gallery.sarahandrob.info",
   databaseURL: "https://sarah-and-rob.firebaseio.com",
   projectId: "sarah-and-rob",
   storageBucket: "sarah-and-rob.appspot.com",
