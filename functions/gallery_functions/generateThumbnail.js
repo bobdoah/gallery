@@ -51,6 +51,8 @@ exports = module.exports = functions
     const contentType = object.contentType; // This is the image MIME type
     const fileDir = path.dirname(filePath);
     const fileName = path.basename(filePath);
+    const fileExt = path.extname(fileName);
+    const fileNameNoExt = path.basename(fileName, fileExt);
     const thumbFilePath = path.normalize(
       path.join(fileDir, `${THUMB_PREFIX}${fileName}`)
     );
@@ -126,7 +128,7 @@ exports = module.exports = functions
     }
     await admin
       .database()
-      .ref("images")
-      .push(post);
+      .ref("images/" + fileNameNoExt)
+      .set(post);
     return console.log("Thumbnail URLs saved to database.");
   });
