@@ -22,6 +22,8 @@ new Vue({
     firebaseApp.auth().onAuthStateChanged(user => {
       if (user) {
         this.user = user;
+      } else {
+        this.user = null;
       }
     });
   },
