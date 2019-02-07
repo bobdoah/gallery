@@ -1,3 +1,6 @@
+.navbar {
+    z-index: 10005;
+}
 .navbar-menu {
     flex-grow: 0.5;
     justify-content: center;

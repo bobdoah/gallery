@@ -13,26 +13,26 @@
  * See the License for t`he specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
+"use strict";
 
-const functions = require('firebase-functions');
-const mkdirp = require('mkdirp-promise');
-const admin = require('firebase-admin');
+const functions = require("firebase-functions");
+const mkdirp = require("mkdirp-promise");
+const admin = require("firebase-admin");
 admin.initializeApp();
-const spawn = require('child-process-promise').spawn;
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
+const spawn = require("child-process-promise").spawn;
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
 
 // Max height and width of the thumbnail in pixels.
 const THUMB_MAX_HEIGHT = 1080;
 const THUMB_MAX_WIDTH = 1080;
 // Thumbnail prefix added to file names.
-const THUMB_PREFIX = 'thumb_';
+const THUMB_PREFIX = "thumb_";
 
 const runtimeOpts = {
   timeoutSeconds: 300,
-  memory: '1GB',
+  memory: "1GB"
 };
 
 /**
@@ -43,7 +43,7 @@ const runtimeOpts = {
  */
 exports = module.exports = functions
   .runWith(runtimeOpts)
-  .region('europe-west1')
+  .region("europe-west1")
   .storage.object()
   .onFinalize(async object => {
     // File and directory paths.
@@ -52,20 +52,20 @@ exports = module.exports = functions
     const fileDir = path.dirname(filePath);
     const fileName = path.basename(filePath);
     const thumbFilePath = path.normalize(
-      path.join(fileDir, `${THUMB_PREFIX}${fileName}`),
+      path.join(fileDir, `${THUMB_PREFIX}${fileName}`)
     );
     const tempLocalFile = path.join(os.tmpdir(), filePath);
     const tempLocalDir = path.dirname(tempLocalFile);
     const tempLocalThumbFile = path.join(os.tmpdir(), thumbFilePath);
 
     // Exit if this is triggered on a file that is not an image.
-    if (!contentType.startsWith('image/')) {
-      return console.log('This is not an image.');
+    if (!contentType.startsWith("image/")) {
+      return console.log("This is not an image.");
     }
 
     // Exit if the image is already a thumbnail.
     if (fileName.startsWith(THUMB_PREFIX)) {
-      return console.log('Already a Thumbnail.');
+      return console.log("Already a Thumbnail.");
     }
 
     // Cloud Storage files.
@@ -73,7 +73,7 @@ exports = module.exports = functions
     const file = bucket.file(filePath);
     const thumbFile = bucket.file(thumbFilePath);
     const metadata = {
-      contentType: contentType,
+      contentType: contentType
       // To enable Client-side caching you can set the Cache-Control headers here. Uncomment below.
       // 'Cache-Control': 'public,max-age=3600',
     };
@@ -81,52 +81,52 @@ exports = module.exports = functions
     // Create the temp directory where the storage file will be downloaded.
     await mkdirp(tempLocalDir);
     // Download file from bucket.
-    await file.download({destination: tempLocalFile});
-    console.log('The file has been downloaded to', tempLocalFile);
+    await file.download({ destination: tempLocalFile });
+    console.log("The file has been downloaded to", tempLocalFile);
     // Generate a thumbnail using ImageMagick.
     await spawn(
-      'convert',
+      "convert",
       [
         tempLocalFile,
-        '-thumbnail',
+        "-thumbnail",
         `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`,
-        tempLocalThumbFile,
+        tempLocalThumbFile
       ],
-      {capture: ['stdout', 'stderr']},
+      { capture: ["stdout", "stderr"] }
     );
-    console.log('Thumbnail created at', tempLocalThumbFile);
+    console.log("Thumbnail created at", tempLocalThumbFile);
     // Uploading the Thumbnail.
     await bucket.upload(tempLocalThumbFile, {
       destination: thumbFilePath,
-      metadata: metadata,
+      metadata: metadata
     });
-    console.log('Thumbnail uploaded to Storage at', thumbFilePath);
+    console.log("Thumbnail uploaded to Storage at", thumbFilePath);
     // Once the image has been uploaded delete the local files to free up disk space.
     fs.unlinkSync(tempLocalFile);
     fs.unlinkSync(tempLocalThumbFile);
     // Get the Signed URLs for the thumbnail and original image.
     const config = {
-      action: 'read',
-      expires: '03-01-2500',
+      action: "read",
+      expires: "03-01-2500"
     };
     const results = await Promise.all([
       thumbFile.getSignedUrl(config),
-      file.getSignedUrl(config),
+      file.getSignedUrl(config)
     ]);
-    console.log('Got Signed URLs.');
+    console.log("Got Signed URLs.");
     const thumbResult = results[0];
     const originalResult = results[1];
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
-    var post = {path: fileUrl, thumbnail: thumbFileUrl};
+    var post = { path: fileUrl, thumbnail: thumbFileUrl };
     if (object.metadata && object.metadata.user && object.metadata.uid) {
-      post['uid'] = uid;
-      post['user'] = user;
+      post["uid"] = object.metadata.uid;
+      post["user"] = object.metadata.user;
     }
     await admin
       .database()
-      .ref('images')
+      .ref("images")
       .push(post);
-    return console.log('Thumbnail URLs saved to database.');
+    return console.log("Thumbnail URLs saved to database.");
   });

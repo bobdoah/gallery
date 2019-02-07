@@ -11,7 +11,7 @@
             <div class="level-left">
               <div class="level-item">
                 <figure class="image is-48x48">
-                  <i v-if="image.user" class="material-icons is-large">
+                  <i v-if="image.user" class="material-icons icon is-large">
                     person
                   </i>
                   <i v-else class="material-icons icon is-large">camera_alt</i>

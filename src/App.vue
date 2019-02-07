@@ -2,22 +2,22 @@
   <div id="app">
     <div class="navbar is-inline-flex is-transparent">
       <div class="navbar-brand">
-        <a class="navbar-item is-family-montez has-text-weight-bold is-size-2">
+        <router-link
+          class="navbar-item is-family-montez has-text-weight-bold is-size-2"
+          to="/"
+        >
           Sarah & Rob
-        </a>
+        </router-link>
       </div>
       <div class="navbar-menu">
         <div class="navbar-item"></div>
       </div>
       <div class="navbar-item is-flex-touch">
-        <a class="navbar-item">
-          <i class="material-icons">explore</i>
-        </a>
-        <a class="navbar-item">
-          <i class="material-icons">favorite_border</i>
-        </a>
+        <router-link v-if="user" to="/upload" class="navbar-item">
+          <i class="material-icons">add_a_photo</i>
+        </router-link>
         <a class="navbar-item" v-if="user" @click="signOut">Sign out</a>
-        <a class="navbar-item" v-else href="auth">Sign in</a>
+        <router-link v-else class="navbar-item" to="/auth">Sign in</router-link>
       </div>
     </div>
     <router-view :user="user" />
@@ -34,6 +34,7 @@ export default {
   methods: {
     signOut() {
       firebaseApp.auth().signOut();
+      this.$router.push("/");
     }
   }
 };
