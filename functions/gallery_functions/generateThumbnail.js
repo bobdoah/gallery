@@ -128,7 +128,7 @@ exports = module.exports = functions
     }
     await admin
       .database()
-      .ref("images/" + fileNameNoExt)
+      .ref("images/" + fileNameNoExt + "-" + fileExt)
       .set(post);
     return console.log("Thumbnail URLs saved to database.");
   });
