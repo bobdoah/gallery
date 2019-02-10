@@ -50,6 +50,13 @@
                   </a>
                 </div>
               </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <a v-if="user" v-on:click="postToPrinter(image)">
+                    <i class="material-icons">print</i>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           <div class="content">
@@ -146,10 +153,25 @@ export default {
       }
     },
     postToPrinter(image) {
+      if (!image.fileName || this.user == null) {
+        this.$toast.open({
+          message:
+            "Failed to send the picture to the printer<br />No imageName attribute or user defined",
+          type: "is-danger",
+          position: "is-bottom"
+        });
+        return;
+      }
       axios
-        .post("http://printserver.sarahandrob.info/printImage", {
-          imageFileName: image.fileName
-        })
+        .post(
+          "https://printserver.sarahandrob.info/printImage",
+          {
+            imageFileName: image.fileName
+          },
+          {
+            headers: { Authorization: "Bearer " + this.user.getIdToken() }
+          }
+        )
         .then(function(response) {
           this.$toast.open({
             message:
