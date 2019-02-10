@@ -93,6 +93,7 @@
 </template>
 <script>
 import { db } from "../firebase";
+const axios = require("axios");
 export default {
   props: ["user"],
   data() {
@@ -143,6 +144,29 @@ export default {
             return image;
           });
       }
+    },
+    postToPrinter(image) {
+      axios
+        .post("http://printserver.sarahandrob.info/printImage", {
+          imageFileName: image.fileName
+        })
+        .then(function(response) {
+          this.$toast.open({
+            message:
+              "Sent the picture to the printer successfully. <br />" + response,
+            type: "is-success",
+            position: "is-bottom"
+          });
+        })
+        .catch(function(error) {
+          this.$toast.open({
+            message:
+              "Failed to send the picture to the printer with error:<br />" +
+              error,
+            type: "is-danger",
+            position: "is-bottom"
+          });
+        });
     }
   }
 };

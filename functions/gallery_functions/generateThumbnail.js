@@ -121,7 +121,7 @@ exports = module.exports = functions
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
-    var post = { path: fileUrl, thumbnail: thumbFileUrl };
+    var post = { path: fileUrl, thumbnail: thumbFileUrl, fileName: fileName };
     if (object.metadata && object.metadata.user && object.metadata.uid) {
       post["uid"] = object.metadata.uid;
       post["user"] = object.metadata.user;
