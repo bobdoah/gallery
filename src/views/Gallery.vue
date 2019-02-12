@@ -52,7 +52,7 @@
               </div>
               <div class="level-item has-text-centered">
                 <div>
-                  <a v-if="user" v-on:click="postToPrinter(image)">
+                  <a v-if="user" v-on:click="print_image(image.path)">
                     <i class="material-icons">print</i>
                   </a>
                 </div>
@@ -100,7 +100,7 @@
 </template>
 <script>
 import { db } from "../firebase";
-const axios = require("axios");
+import printJS from "print-js";
 export default {
   props: ["user"],
   data() {
@@ -152,43 +152,12 @@ export default {
           });
       }
     },
-    postToPrinter(image) {
-      if (!image.fileName || this.user == null) {
-        this.$toast.open({
-          message:
-            "Failed to send the picture to the printer<br />No imageName attribute or user defined",
-          type: "is-danger",
-          position: "is-bottom"
-        });
-        return;
-      }
-      axios
-        .post(
-          "https://printserver.sarahandrob.info/printImage",
-          {
-            imageFileName: image.fileName
-          },
-          {
-            headers: { Authorization: "Bearer " + this.user.getIdToken() }
-          }
-        )
-        .then(function(response) {
-          this.$toast.open({
-            message:
-              "Sent the picture to the printer successfully. <br />" + response,
-            type: "is-success",
-            position: "is-bottom"
-          });
-        })
-        .catch(function(error) {
-          this.$toast.open({
-            message:
-              "Failed to send the picture to the printer with error:<br />" +
-              error,
-            type: "is-danger",
-            position: "is-bottom"
-          });
-        });
+    print_image(url) {
+      printJS({
+        printable: url,
+        type: "image",
+        showModal: true
+      });
     }
   }
 };
