@@ -15,12 +15,23 @@
         </div>
         <div class="card-content has-text-centered">
           <button
-            class="button is-success"
+            class="button"
             @click="attemptUpload"
             v-bind:disabled="!user || !image || isUploading"
-            v-bind:class="{ 'is-loading': isUploading }"
+            v-bind:class="{
+              'is-loading': isUploading,
+              'is-danger': !uploadResult && uploadResult != null,
+              'is-success': uploadResult || uploadResult == null
+            }"
           >
-            Upload
+            <i v-if="uploadResult" class="material-icons">check</i>
+            <i
+              v-else-if="!uploadResult && uploadResult != null"
+              class="material-icons"
+            >
+              close
+            </i>
+            <span v-else>Upload</span>
           </button>
         </div>
       </div>
@@ -47,8 +58,9 @@ export default {
   methods: {
     onChanged() {
       if (this.$refs.pictureInput.file) {
+        this.uploadResult = null;
         const pictureInput = this.$refs.pictureInput;
-        const pictureFile = pictureInput.$refs.fileInput.files[0];
+        const pictureFile = pictureInput.file;
         this.image = {
           file: pictureInput.file,
           fileName: pictureFile.name,
@@ -62,6 +74,7 @@ export default {
         uploadImage(this.user, this.image)
           .then(snapshot => {
             this.isUploading = false;
+            this.uploadResult = true;
             this.image = null;
             this.$toast.open({
               message:
@@ -72,6 +85,7 @@ export default {
           })
           .catch(error => {
             this.isUploading = false;
+            this.uploadResult = false;
             this.$toast.open({
               message:
                 "Failed to upload with error:<br/>" +
