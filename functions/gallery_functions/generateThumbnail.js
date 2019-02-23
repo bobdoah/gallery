@@ -17,6 +17,9 @@
 
 const functions = require("firebase-functions");
 const mkdirp = require("mkdirp-promise");
+const gcs = require("@google-cloud/storage")({
+  keyFilename: "service-account-credentials.json"
+});
 const admin = require("firebase-admin");
 admin.initializeApp();
 const spawn = require("child-process-promise").spawn;
@@ -70,7 +73,7 @@ exports = module.exports = functions
     }
 
     // Cloud Storage files.
-    const bucket = admin.storage().bucket(object.bucket);
+    const bucket = gcs.bucket(object.bucket);
     const file = bucket.file(filePath);
     const thumbFile = bucket.file(thumbFilePath);
     const metadata = {
