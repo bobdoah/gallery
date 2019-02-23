@@ -13,7 +13,7 @@
     width: 50%;
 }
 .body-columns {
-    margin-top: 10vh;
+    margin-top: 5vh;
 }
 .card {
     margin-top: 5rem;
@@ -53,7 +53,17 @@
     font-color: #F69D9D;
 }
 #firebaseui-auth-container {
-    margin-top: 5rem;
+    margin-top: 5vh;
+}
+
+.VueCarousel {
+    margin-top: 10vh;
+    max-height: 80vh;
+    text-align: center;
+}
+.carousel-image img {
+    max-width:100%;
+    max-height:100%;
 }
 
 /* @media screen and (max-width: 786px){
