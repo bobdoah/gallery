@@ -1,22 +1,11 @@
 <template>
-  <agile
-    :arrows="false"
-    :speed="750"
-    :timing="'linear'"
-    :fade="true"
-    :autoplay="true"
-    :pauseOnHoover="false"
-  >
-    <div
-      v-for="image of images.slice().reverse()"
-      :key="image.key"
-      class="slide"
-    >
+  <carousel :per-page="1">
+    <slide v-for="image of images.slice().reverse()" :key="image.key">
       <figure class="image">
         <img :src="image.thumbnail" />
       </figure>
-    </div>
-  </agile>
+    </slide>
+  </carousel>
 </template>
 <script>
 import { db } from "../firebase";

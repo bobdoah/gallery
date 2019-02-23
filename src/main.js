@@ -3,14 +3,14 @@ import App from "./App.vue";
 import router from "./router";
 import Buefy from "buefy";
 import Vuefire from "vuefire";
-import VueAgile from "vue-agile";
+import VueCarousel from "vue-carousel";
 import { firebaseApp } from "./firebase";
 
 require("@/assets/css/instaAlbum.css");
 
 Vue.use(Buefy);
 Vue.use(Vuefire);
-Vue.use(VueAgile);
+Vue.use(VueCarousel);
 Vue.config.productionTip = false;
 
 new Vue({
