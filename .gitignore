@@ -103,4 +103,4 @@ tags
 # Node build output
 dist/
 
-functions/**/service-account-credentials.json
+functions/service-account-credentials.json
