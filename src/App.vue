@@ -34,7 +34,7 @@ export default {
   methods: {
     signOut() {
       firebaseApp.auth().signOut();
-      this.$router.push("/");
+      this.$router.push("/auth");
     }
   }
 };
