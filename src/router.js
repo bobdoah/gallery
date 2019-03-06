@@ -4,19 +4,17 @@ import Auth from "./components/Auth.vue";
 import Gallery from "./views/Gallery.vue";
 import Upload from "./views/Upload.vue";
 import Carousel from "./views/Carousel.vue";
-import store from "./store";
 
 Vue.use(Router);
 
-const router = new Router({
+export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
       name: "Gallery",
-      component: Gallery,
-      meta: { requiresAuth: true }
+      component: Gallery
     },
     {
       path: "/auth",
@@ -26,24 +24,12 @@ const router = new Router({
     {
       path: "/upload",
       name: "Upload",
-      component: Upload,
-      meta: { requiresAuth: true }
+      component: Upload
     },
     {
       path: "/carousel",
       name: "Carousel",
-      component: Carousel,
-      meta: { requiresAuth: true }
+      component: Carousel
     }
   ]
 });
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !store.getters.getUser) {
-    next("/auth");
-  } else {
-    next();
-  }
-});
-
-export default router;
