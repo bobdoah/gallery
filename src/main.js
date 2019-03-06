@@ -14,29 +14,25 @@ Vue.use(Vuefire);
 Vue.use(VueCarousel);
 Vue.config.productionTip = false;
 
-new Vue({
-  data() {
-    return {
-      user: null
-    };
-  },
-  router,
-  beforeCreate: function() {
-    firebaseApp.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.user = user;
-        store.dispatch("setUser", user);
-      } else {
-        this.user = null;
-        store.dispatch("setUser", null);
-      }
-    });
-  },
-  render(h) {
-    return h(App, {
-      props: {
-        user: this.user
-      }
-    });
+const unsubscribe = firebaseApp.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch("setUser", user);
+  } else {
+    store.dispatch("setUser", null);
   }
-}).$mount("#app");
+  new Vue({
+    data() {
+      return {
+        user: null
+      };
+    },
+    router,
+    store,
+    render(h) {
+      return h(App, {
+        props: {}
+      });
+    }
+  }).$mount("#app");
+  unsubscribe();
+});

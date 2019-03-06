@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     user: null
   },
   getters: {
-    getUser: state => {
+    user(state) {
       return state.user;
     }
   },

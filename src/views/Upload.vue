@@ -42,6 +42,7 @@
 <script>
 import PictureInput from "vue-picture-input";
 import uploadImage from "../uploadImage";
+import { mapState } from "vuex";
 const filesize = require("filesize.js");
 export default {
   data() {
@@ -51,7 +52,6 @@ export default {
       image: ""
     };
   },
-  props: ["user"],
   components: {
     PictureInput
   },
@@ -98,6 +98,9 @@ export default {
           });
       }
     }
+  },
+  computed: {
+    ...mapState(["user"])
   }
 };
 </script>
