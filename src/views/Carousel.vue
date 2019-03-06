@@ -1,7 +1,7 @@
 <template>
   <carousel :per-page="1">
     <slide v-for="image of images.slice().reverse()" :key="image.key">
-      <figure class="image">
+      <figure class="carousel-image">
         <img :src="image.thumbnail" />
       </figure>
     </slide>
