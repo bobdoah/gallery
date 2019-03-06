@@ -100,9 +100,9 @@
 </template>
 <script>
 import { db } from "../firebase";
-import { mapState } from "vuex";
 import printJS from "print-js";
 export default {
+  props: ["user"],
   data() {
     return {
       images: []
@@ -159,9 +159,6 @@ export default {
         showModal: true
       });
     }
-  },
-  computed: {
-    ...mapState(["user"])
   }
 };
 </script>

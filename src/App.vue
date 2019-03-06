@@ -29,16 +29,13 @@
 </style>
 <script>
 import { firebaseApp } from "./firebase";
-import { mapState } from "vuex";
 export default {
+  props: ["user"],
   methods: {
     signOut() {
       firebaseApp.auth().signOut();
       this.$router.push("/auth");
     }
-  },
-  computed: {
-    ...mapState(["user"])
   }
 };
 </script>

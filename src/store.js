@@ -5,10 +5,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    user: null
+    user: {
+      type: Object
+    }
   },
   getters: {
-    user(state) {
+    getUser: state => {
       return state.user;
     }
   },
