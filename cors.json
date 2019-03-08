@@ -1,0 +1,9 @@
+[
+    {
+      "origin": ["https://gallery.sarahandrob.info", "http://localhost:8080", "http://sarah-and-rob.appspot.com"],
+      "responseHeader": ["Content-Type"],
+      "method": ["GET", "HEAD", "DELETE"],
+      "maxAgeSeconds": 3600
+    }
+]
+

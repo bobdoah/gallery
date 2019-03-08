@@ -52,8 +52,12 @@
               </div>
               <div class="level-item has-text-centered">
                 <div>
-                  <a v-if="user" v-on:click="print_image(image.path)">
-                    <i class="material-icons">print</i>
+                  <a
+                    v-if="user"
+                    @click.prevent="downloadItem(image.path, image.fileName)"
+                    :href="image.path"
+                  >
+                    <i class="material-icons">cloud_download</i>
                   </a>
                 </div>
               </div>
@@ -100,7 +104,7 @@
 </template>
 <script>
 import { db } from "../firebase";
-import printJS from "print-js";
+import axios from "axios";
 export default {
   props: ["user"],
   data() {
@@ -152,11 +156,15 @@ export default {
           });
       }
     },
-    print_image(url) {
-      printJS({
-        printable: url,
-        type: "image",
-        showModal: true
+    downloadItem(url, fileName) {
+      axios.get(url, { responseType: "blob" }).then(({ data }) => {
+        let blob = new Blob([data], { type: "image/jpg" });
+        let link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click().catch(error => {
+          console.error(error);
+        });
       });
     }
   }
